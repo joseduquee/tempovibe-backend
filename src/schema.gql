@@ -1,0 +1,100 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type TimeTracking {
+  id: ID!
+  userId: String!
+  type: TypeTimeTracking!
+  timestamp: DateTime!
+}
+
+enum TypeTimeTracking {
+  START
+  PAUSE
+  END
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Item {
+  id: String!
+  name: String!
+  quantityUnits: Float!
+  userId: String!
+  user: User!
+}
+
+type User {
+  id: ID!
+  name: String!
+  lastName: String!
+  email: String!
+  roles: [String!]!
+  isActive: Boolean!
+  timeTrackings: [TimeTracking]
+  items: [Item!]
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  lastUpdateById: ID
+  lastUpdateBy: User
+}
+
+type Query {
+  Users(roles: [ValidRoles!] = []): [User!]!
+  User(id: ID!): User!
+  timeTracking: [TimeTracking!]!
+  items: [Item!]!
+}
+
+"""Valid roles for the application"""
+enum ValidRoles {
+  admin
+  developer
+  user
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  blockUser(id: ID!): User!
+  createTimeTracking(createTimeTrackingInput: CreateTimeTrackingInput!): TimeTracking!
+  createItem(createItemInput: CreateItemInput!): Item!
+}
+
+input CreateUserInput {
+  name: String!
+  lastName: String!
+  email: String!
+  password: String!
+  roles: [Roles!]! = [USER]
+}
+
+enum Roles {
+  ADMIN
+  DEVELOPER
+  USER
+}
+
+input UpdateUserInput {
+  name: String
+  lastName: String
+  email: String
+  roles: [Roles!] = [USER]
+  id: ID!
+  isActive: Boolean
+}
+
+input CreateTimeTrackingInput {
+  userId: ID!
+  type: TypeTimeTracking!
+}
+
+input CreateItemInput {
+  name: String!
+  quantityUnits: Float!
+  userId: String!
+}
