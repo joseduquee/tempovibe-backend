@@ -38,4 +38,4 @@ npm run start:dev
 localhost:3035/graphql
 ```
 
-9. Run Mutation: __"run seed"__ to fill the database with information
+9. Run Mutation: __"runSeed"__ to fill the database with information

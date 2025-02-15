@@ -20,14 +20,6 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type Item {
-  id: String!
-  name: String!
-  quantityUnits: Float!
-  userId: String!
-  user: User!
-}
-
 type User {
   id: ID!
   name: String!
@@ -36,18 +28,28 @@ type User {
   roles: [String!]!
   isActive: Boolean!
   timeTrackings: [TimeTracking]
-  items: [Item!]
   createdAt: DateTime!
   updatedAt: DateTime!
   lastUpdateById: ID
   lastUpdateBy: User
+  itemCount: Int!
+  items(offset: Int = 0, limit: Int = 10, search: String): [Item!]!
+}
+
+type Item {
+  id: String!
+  name: String!
+  quantityUnits: Float!
+  userId: String!
+  user: User!
 }
 
 type Query {
   Users(roles: [ValidRoles!] = []): [User!]!
   User(id: ID!): User!
+  items(offset: Int = 0, limit: Int = 10, search: String): [Item!]!
+  item(id: ID!): Item!
   timeTracking: [TimeTracking!]!
-  items: [Item!]!
 }
 
 """Valid roles for the application"""
@@ -61,8 +63,13 @@ type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   blockUser(id: ID!): User!
-  createTimeTracking(createTimeTrackingInput: CreateTimeTrackingInput!): TimeTracking!
   createItem(createItemInput: CreateItemInput!): Item!
+  updateItem(updateItemInput: UpdateItemInput!): Item!
+  removeItem(id: ID!): Item!
+  createTimeTracking(createTimeTrackingInput: CreateTimeTrackingInput!): TimeTracking!
+
+  """Run seed of DDBB"""
+  runSeed: Boolean!
 }
 
 input CreateUserInput {
@@ -88,13 +95,18 @@ input UpdateUserInput {
   isActive: Boolean
 }
 
-input CreateTimeTrackingInput {
-  userId: ID!
-  type: TypeTimeTracking!
-}
-
 input CreateItemInput {
   name: String!
   quantityUnits: Float!
-  userId: String!
+}
+
+input UpdateItemInput {
+  name: String
+  quantityUnits: Float
+  id: ID!
+}
+
+input CreateTimeTrackingInput {
+  userId: ID!
+  type: TypeTimeTracking!
 }

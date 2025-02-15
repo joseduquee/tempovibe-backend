@@ -10,7 +10,8 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
-      forbidNonWhitelisted: true,
+      //* esto lo que hace es evitar que se envian propiedades que no esten definidas en la clase dto
+      forbidNonWhitelisted: false,
     }),
   );
   await app.listen(envs.port);

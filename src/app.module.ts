@@ -10,6 +10,7 @@ import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './common/modules/prisma.module';
 import { JwtService } from '@nestjs/jwt';
 import { ItemsModule } from './modules/items/items.module';
+import { SeedModule } from './modules/seed/seed.module';
 
 @Module({
   imports: [
@@ -46,7 +47,8 @@ import { ItemsModule } from './modules/items/items.module';
     UserModule,
     AuthModule,
     ItemsModule,
-    PrismaModule
+    PrismaModule,
+    SeedModule
   ],
   controllers: [],
   providers: [],

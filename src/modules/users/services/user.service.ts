@@ -89,6 +89,11 @@ export class UserService {
         : {}, // Si no hay roles, no se aplica ningún filtro
       include: {
         lastUpdateBy: true,
+        items: {
+          include: {
+            user: true,
+          },
+        },
       },
     });
   }

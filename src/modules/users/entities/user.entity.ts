@@ -41,7 +41,7 @@ export class User {
   @IsOptional()
   timeTrackings?: TimeTracking[];
 
-  @Field(() => [Item], { nullable: true })
+  // @Field(() => [Item], { nullable: true })
   @IsOptional()
   items?: Item[];
 

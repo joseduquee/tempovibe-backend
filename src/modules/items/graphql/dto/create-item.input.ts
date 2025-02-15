@@ -10,8 +10,4 @@ export class CreateItemInput {
   @Field()
   @IsNumber()
   quantityUnits: number;
-
-  @Field()
-  @IsUUID()
-  userId: string;
 }
